@@ -1,6 +1,6 @@
 # Graph Questions
 
-\[Clone a given graph\] (https://leetcode.com/problems/clone-graph/) `TC: O(N) for n nodes in the graph` **This is nothing but Depth First Search Algorithm** \`\`\`java /\* // Definition for a Node. class Node { public int val; public List neighbors; public Node() { val = 0; neighbors = new ArrayList(); } public Node(int \_val) { val = \_val; neighbors = new ArrayList(); } public Node(int \_val, ArrayList \_neighbors) { val = \_val; neighbors = \_neighbors; } } \*/
+\[Clone a given graph\] ([https://leetcode.com/problems/clone-graph/](https://leetcode.com/problems/clone-graph/)) `TC: O(N) for n nodes in the graph` **This is nothing but Depth First Search Algorithm** \`\`\`java /\* // Definition for a Node. class Node { public int val; public List neighbors; public Node() { val = 0; neighbors = new ArrayList(); } public Node(int *val) { val =* val; neighbors = new ArrayList(); } public Node(int *val, ArrayList* neighbors) { val = *val; neighbors =* neighbors; } } \*/
 
 class Solution { //we will use dfs for cloning the graph, we will traverse //the graph in depth first search manner and create a complete clone of the given graph.
 
