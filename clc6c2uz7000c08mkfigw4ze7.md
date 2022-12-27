@@ -1,6 +1,6 @@
 # Dynamic Programming
 
-[Subset sum equals to target](https://www.codingninjas.com/codestudio/problems/1550954?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=1) Note : [For detailed explanation](https://dev.to/prashantrmishra/partition-equals-subset-sum-leetcode-problem-or-subset-sum-equals-to-target-4441) or [TakeUForward YouTube Solution](https://www.youtube.com/watch?v=fWX9xDmIzRI)
+[Subset sum equals to target](https://www.codingninjas.com/codestudio/problems/1550954?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=1) Note: [For detailed explanation](https://dev.to/prashantrmishra/partition-equals-subset-sum-leetcode-problem-or-subset-sum-equals-to-target-4441) or [TakeUForward YouTube Solution](https://www.youtube.com/watch?v=fWX9xDmIzRI)
 
 `TC: O(nm) same for both memoization and tabulation Memoization has extra stack space of o(n), as we will be calling recursion method at max n times`
 
@@ -108,20 +108,94 @@ public class Solution {
         if(a.charAt(i) == b.charAt(j)){
             return dp[i][j] =  1 + lcsUtil(i-1,j-1,a,b,dp);
         }
-        return dp[i][j] =  0 + Integer.max(lcsUtil(i-1,j,a,b,dp),lcsUtil(i,j-1,a,b,dp));
+        return dp[i][j] =  0 + Integer.max(lcsUtil(i-1,j,a,b,dp),lcsUtil(i,j-1,a,b,dp)); 
     }
 
 }
 ```
 
-[Longest increasing subsequence](https://www.codingninjas.com/codestudio/problems/630459?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=1) `TC: O(nm) , sc: O(nm) + O(n), extra O(n) for stack space` \`\`\`java import java.util.\*; public class Solution {
+[Longest increasing subsequence](https://www.codingninjas.com/codestudio/problems/630459?topList=striver-sde-sheet-problems&utm_source=striver&utm_medium=website&leftPanelTab=1)
 
-public static int longestIncreasingSubsequence(int arr\[\]) { int prev = -1; int dp\[\]\[\] = new int\[arr.length\]\[arr.length+1\]; // we are taking arr.length+1 as prev starts with -1 hence we are doing co-ordinate shift by one index. for(int row\[\] : dp) Arrays.fill(row,-1); return lengthIncreasing(0,arr,prev,dp); } public static int lengthIncreasing(int index, int\[\] arr,int prev,int dp\[\]\[\]){ //base case if(index==arr.length) return 0; if(dp\[index\]\[prev+1\]!=-1) return dp\[index\]\[prev+1\]; //take int take = 0; if(prev ==-1 || arr\[prev\] &lt; arr\[index\]) take = 1 + lengthIncreasing(index+1,arr,index,dp); //dontTake int dontTake = 0 + lengthIncreasing(index+1,arr,prev,dp); return dp\[index\]\[prev+1\] = Integer.max(take,dontTake); }
+`TC: O(nm) , sc: O(nm) + O(n), extra O(n) for stack space`
 
-} \`\`\`
+```java
+ import java.util.*;
+public class Solution {
+
+    public static int longestIncreasingSubsequence(int arr[]) {
+        int prev = -1;
+        int dp[][] = new int[arr.length][arr.length+1]; // we are taking arr.length+1 as prev starts with -1 hence we are doing co-ordinate shift by one index.
+        for(int row[] : dp)
+            Arrays.fill(row,-1);
+        return lengthIncreasing(0,arr,prev,dp);
+    }
+    public static int lengthIncreasing(int index, int[] arr,int prev,int dp[][]){
+        //base case
+        if(index==arr.length) return 0;
+        if(dp[index][prev+1]!=-1) return dp[index][prev+1];
+        //take
+        int take = 0;
+        if(prev ==-1 || arr[prev] < arr[index])
+            take = 1 + lengthIncreasing(index+1,arr,index,dp);
+        //dontTake
+        int dontTake = 0  + lengthIncreasing(index+1,arr,prev,dp);
+        return dp[index][prev+1] =  Integer.max(take,dontTake);
+    }
+
+}
+```
 
 # [Interleaved Strings](https://leetcode.com/problems/interleaving-string)
 
-`TC: O(n^m) where n is length of string a, and m is length of string b` `java //solution 1 : recursive solution, will lead to TLE class Solution { public boolean isInterleave(String a, String b, String c) { if(a.length() + b.length() != c.length()) return false; return isPossible(0,0,a,b,c); } public boolean isPossible(int i , int j, String a, String b, String c){ ///base case if(i == a.length() && j == b.length()) return true; boolean left = false; boolean right = false; if(i< a.length() && a.charAt(i) == c.charAt(i+j)){ left = isPossible(i+1,j,a,b,c); } if (j < b.length() && b.charAt(j) == c.charAt(i+j)){ right = isPossible(i,j+1,a,b,c); } return left || right; } }` **Optimal Solution** `TC: O(n^2)` \`\`\`java
+`TC: O(n^m) where n is length of string a, and m is length of string b`
 
-class Solution { public boolean isInterleave(String a, String b, String c) { int dp\[\]\[\] = new int\[a.length()+1\]\[b.length()+1\]; for(int row\[\] : dp) Arrays.fill(row,-1); if(a.length() + b.length() != c.length()) return false; return isPossible(0,0,a,b,c,dp); } public boolean isPossible(int i , int j, String a, String b, String c,int\[\]\[\] dp){ ///base case if(i == a.length() && j == b.length()) return true; if(dp\[i\]\[j\]!=-1) return dp\[i\]\[j\]==1; boolean left = false; boolean right = false; if(i&lt; a.length() && a.charAt(i) == c.charAt(i+j)){ left = isPossible(i+1,j,a,b,c,dp); } if (j &lt; b.length() && b.charAt(j) == c.charAt(i+j)){ right = isPossible(i,j+1,a,b,c,dp); } dp\[i\]\[j\] = (left || right) ? 1: 0; return dp\[i\]\[j\]==1 ? true : false; } } \`\`\`
+```java
+//solution 1 : recursive solution, will lead to TLE
+class Solution {
+    public boolean isInterleave(String a, String b, String c) {
+        if(a.length() + b.length() != c.length()) return false;
+        return isPossible(0,0,a,b,c);
+    }
+    public boolean isPossible(int i , int j, String a, String b, String c){
+        ///base case
+        if(i == a.length() && j == b.length()) return true;
+        boolean left = false;
+        boolean right = false;
+        if(i< a.length() && a.charAt(i) == c.charAt(i+j)){
+             left =  isPossible(i+1,j,a,b,c);
+        }
+        if (j < b.length() && b.charAt(j) == c.charAt(i+j)){
+             right = isPossible(i,j+1,a,b,c);
+        }
+        return left || right;
+    }
+}
+```
+
+**Optimal Solution** `TC: O(n^2)`
+
+```java
+class Solution {
+    public boolean isInterleave(String a, String b, String c) {
+        int dp[][] = new int[a.length()+1][b.length()+1];
+        for(int row[] : dp) Arrays.fill(row,-1);
+        if(a.length() + b.length() != c.length()) return false;
+        return isPossible(0,0,a,b,c,dp);
+    }
+    public boolean isPossible(int i , int j, String a, String b, String c,int[][] dp){
+        ///base case
+        if(i == a.length() && j == b.length()) return true;
+        if(dp[i][j]!=-1) return dp[i][j]==1;
+        boolean left = false;
+        boolean right = false;
+        if(i< a.length() && a.charAt(i) == c.charAt(i+j)){
+             left =  isPossible(i+1,j,a,b,c,dp);
+        }
+        if (j < b.length() && b.charAt(j) == c.charAt(i+j)){
+             right = isPossible(i,j+1,a,b,c,dp);
+        }
+        dp[i][j] = (left || right) ? 1: 0;
+        return dp[i][j]==1 ? true : false;
+    }
+}
+```
